@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun showPhotos(data: String){
-//        https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+//        https://live.staticflickr.com/{server-id}/{id}_{secret}_{size-suffix}.jpg
         withContext(Main){
             val jsonObj = JSONObject(data)
             val photos = jsonObj.getJSONObject("photos").getJSONArray("photo")
@@ -87,11 +87,10 @@ class MainActivity : AppCompatActivity() {
             println(photos.getJSONObject(0).getString("farm"))
             for(i in 0 until photos.length()){
                 val title = photos.getJSONObject(i).getString("title")
-                val farmID = photos.getJSONObject(i).getString("farm")
                 val serverID = photos.getJSONObject(i).getString("server")
                 val id = photos.getJSONObject(i).getString("id")
                 val secret = photos.getJSONObject(i).getString("secret")
-                val photoLink = "https://farm$farmID.staticflickr.com/$serverID/${id}_$secret.jpg"
+                val photoLink = "https://live.staticflickr.com/$serverID/${id}_${secret}.jpg"
                 images.add(Image(title, photoLink))
             }
             rvAdapter.notifyDataSetChanged()
